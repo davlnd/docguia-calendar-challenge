@@ -8,8 +8,8 @@ Mini-módulo de calendario semanal que emula el UI provisto en las capturas y ag
 
 ## 🔗 Demo
 
-* 🌐 URL: `<TU_URL_DEPLOY>`
-* 💻 Repo: `<TU_REPO>`
+* 🌐 URL: `https://docguia-calendar-challenge.vercel.app/`
+* 💻 Repo: `https://github.com/davlnd/docguia-calendar-challenge`
 
 > ⚠️ Para probar la funcionalidad de voz se recomienda **Google Chrome**.
 
