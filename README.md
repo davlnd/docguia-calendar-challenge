@@ -1,36 +1,165 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+---
 
-## Getting Started
+# 🗓️ DocGuía Calendar — Voice-First Scheduling
 
-First, run the development server:
+Mini-módulo de calendario semanal que emula el UI provisto en las capturas y agrega creación de citas mediante voz (voice-first).
+
+---
+
+## 🔗 Demo
+
+* 🌐 URL: `<TU_URL_DEPLOY>`
+* 💻 Repo: `<TU_REPO>`
+
+> ⚠️ Para probar la funcionalidad de voz se recomienda **Google Chrome**.
+
+---
+
+## 🧱 Stack
+
+* **Next.js (App Router)** + TypeScript
+* **TailwindCSS**
+* **Zustand** (estado de citas y semana activa)
+* **Radix UI** (Drawer / componentes base)
+* **Web Speech API (SpeechRecognition)** para captura de voz
+
+---
+
+## 🎯 Objetivo del Challenge
+
+1. Emular fielmente el diseño del calendario provisto.
+2. Implementar una experiencia **voice-first** para crear citas.
+3. Manejar ambigüedades con criterio de producto.
+4. Reflejar inmediatamente la cita creada en el calendario.
+
+---
+
+# 📅 Calendario
+
+## Vista semanal
+
+* Grid con slots de 30 minutos.
+* Posicionamiento absoluto de citas según hora y duración.
+* Indicador de **hora actual** (línea roja dinámica).
+* Rango dinámico de semana (ej. `8 – 15 Feb`).
+* Scroll vertical controlado.
+
+---
+
+# 🎤 Creación de citas por voz
+
+## Flujo
+
+1. Usuario presiona botón 🎤.
+2. Se inicia grabación con **Web Speech API**.
+3. Se obtiene transcripción.
+4. Se interpreta el texto y se construye un **draft estructurado**.
+5. Si hay ambigüedades → se muestran preguntas de aclaración.
+6. Confirmación final.
+7. Se crea la cita y se renderiza en el calendario.
+
+---
+
+# 🧠 Estrategia de interpretación
+
+Se implementó una capa de parsing que:
+
+* Detecta:
+
+    * Fecha (hoy, mañana, día de la semana)
+    * Hora (24h, 12h, am/pm)
+    * Duración (ej: 30 minutos, media hora)
+    * Paciente (ej: “con María”)
+    * Motivo (ej: “por control”)
+
+* Aplica defaults:
+
+    * Duración por defecto: 30 minutos
+
+---
+
+# ⚠️ Manejo de Ambigüedades
+
+Se priorizó reducir fricción sin crear errores:
+
+| Caso                       | Resolución UX                              |
+| -------------------------- | ------------------------------------------ |
+| “A las 7”                  | Se solicita confirmar AM o PM              |
+| “El miércoles en la tarde” | Se proponen horarios sugeridos             |
+| Falta fecha                | Se ofrecen opciones rápidas (Hoy / Mañana) |
+| Falta hora                 | Se sugieren horas comunes                  |
+
+---
+
+# 🛡️ Consideraciones técnicas
+
+### Web Speech API
+
+Se decidió utilizar Web Speech API por:
+
+* Rapidez de implementación dentro del alcance del challenge
+* Experiencia fluida en Chrome
+* No requerir infraestructura externa
+
+⚠️ Nota: Web Speech API puede presentar comportamiento inconsistente entre navegadores.
+El demo está optimizado para **Google Chrome**.
+
+---
+
+# 📦 Instalación
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrir:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+# 🧪 Cómo probar
 
-To learn more about Next.js, take a look at the following resources:
+Ejemplos recomendados:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* “Crea una cita mañana a las 3pm con María Pérez por control”
+* “Agéndame a Juan el viernes a las 9 por consulta”
+* “Pon una cita el miércoles en la tarde con Carlos”
+* “Agéndame a Ana a las 7”
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+# ✨ Bonus implementados
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* Indicador visual de hora actual
+* Manejo de ambigüedades con UI contextual
+* Separación clara entre:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+    * Captura de voz
+    * Parsing
+    * Confirmación
+    * Creación en calendario
+
+---
+
+# 🧠 Decisiones de producto
+
+* Prioricé claridad y control sobre automatización agresiva.
+* Prefiero confirmar ambigüedades antes de crear una cita incorrecta.
+* El usuario siempre ve el resumen estructurado antes de guardar.
+
+---
+
+# 📌 Conclusión
+
+El objetivo fue construir una experiencia coherente con el producto existente, cuidando:
+
+* Jerarquía visual
+* Claridad de interacción
+* Manejo realista de ambigüedades
+* Responsabilidad sobre lo que se crea
+
+---
